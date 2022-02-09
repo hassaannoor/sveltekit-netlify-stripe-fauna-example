@@ -3,7 +3,7 @@ import * as auth from '$lib/apis/auth-api-methods';
 import * as cookie from '$lib/utils/cookies';
 import { serverResponse, parseJwt } from '$lib/utils/helpers';
 
-export async function post(request) {
+export async function post({request}) {
 
   try {
     const { email, password } = request.body;

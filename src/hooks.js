@@ -6,37 +6,30 @@ import { parseJwt } from '$lib/utils/helpers';
 // HANDLE
 // ==============================================================================
 
-export async function handle({ request, resolve }) {
-
+export async function handle({ event, resolve }) {
   // console.log('=============================================================');
   // console.log(new Date().toISOString(), ': HOOKS handle');
 
   // parse jwt from cookie in request, if present, and populate locals.user
-  const { jwt } = parseIdentityCookies(request);
+  const { jwt } = parseIdentityCookies(event);
   if (jwt) {
-    request.locals.token = jwt;
-    request.locals.user = parseJwt(jwt);
+    event.locals.token = jwt;
+    event.locals.user = parseJwt(jwt);
   }
-  if (request.locals.user) {
-    request.locals.user.authenticated = true;
+  if (event.locals.user) {
+    event.locals.user.authenticated = true;
   } else {
-    request.locals.user = {};
-    request.locals.user.authenticated = false;
+    event.locals.user = {};
+    event.locals.user.authenticated = false;
   }
   
   // console.log(new Date().toISOString(), ': HOOKS handle jwt :', jwt);
-  // console.log(new Date().toISOString(), ': HOOKS handle locals.user.authenticated :', request.locals.user.authenticated);
+  // console.log(new Date().toISOString(), ': HOOKS handle locals.user.authenticated :', event.locals.user.authenticated);
 
   // process requested route/endpoint
-  const response = await resolve(request);
+  const response = await resolve(event);
 
-  return {
-    ...response,
-    headers: {
-      ...response.headers,
-      // 'x-custom-header': 'potato',
-    }
-  };
+  return response
 
 }
 
@@ -45,17 +38,17 @@ export async function handle({ request, resolve }) {
 // GETSESSION
 // ==============================================================================
 
-export function getSession(request) {
+export function getSession(event) {
 
   // console.log('-------------------------------------------------------------');
   // console.log(new Date().toISOString(), ': HOOKS getSession');
-  // console.log(new Date().toISOString(), ': HOOKS getSession locals.user.authenticated :', request.locals.user.authenticated);
+  // console.log(new Date().toISOString(), ': HOOKS getSession locals.user.authenticated :', event.locals.user.authenticated);
   
   return {
     user: {
-			authenticated: request.locals.user.authenticated || false,
-			authExpires: request.locals.user.exp || null,
-			email: request.locals.user.email || null,
+			authenticated: event.locals.user.authenticated || false,
+			authExpires: event.locals.user.exp || null,
+			email: event.locals.user.email || null,
 		}
 	};
 }

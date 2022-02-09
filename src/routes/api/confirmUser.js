@@ -3,7 +3,7 @@ import * as db from '$lib/apis/db-api-methods'
 import * as cookie from '$lib/utils/cookies';
 import { serverResponse, parseJwt } from '$lib/utils/helpers';
 
-export async function post(request) {
+export async function post({request}) {
 
   try {
     const { token } = request.body; // #confirmation_token value passed to endpoint

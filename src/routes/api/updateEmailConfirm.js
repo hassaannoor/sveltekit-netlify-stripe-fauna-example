@@ -5,8 +5,9 @@ import * as cookie from '$lib/utils/cookies';
 import loadStripe from 'stripe';
 import { serverResponse } from '$lib/utils/helpers';
 
-export async function post(request) {
-
+export async function post({request}) {
+	console.log(request)
+  let body = await request.json()
   try {
     const { token } = request.locals;
     const accessTokenCheck = await auth.verifyCurrentToken(token);
@@ -16,7 +17,7 @@ export async function post(request) {
 
       // Attempt to confirm email change token
       // -------------------------------------------------------------------------------------------
-      const { updateToken } = request.body; // #email_change_token value passed to endpoint
+      const { updateToken } = body; // #email_change_token value passed to endpoint
       const emailConfirmation = await auth.confirmEmailChange(token, updateToken);
       if (emailConfirmation.error) throw { statusMessage: emailConfirmation.statusMessage, errorMessage: emailConfirmation.error, };
 

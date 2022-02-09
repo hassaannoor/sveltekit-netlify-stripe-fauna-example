@@ -1,8 +1,8 @@
 <script context="module">
-	export async function load({ page }) {
+	export async function load({ url, params }) {
 		// redirect non-deleting visitors
 		// expects simple '?success' flag in url
-		if (!page.query.has('success')) {
+		if (!params['success']) {
 			return {
 				status: 302,
 				redirect: '/'

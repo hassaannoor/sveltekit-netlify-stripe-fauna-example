@@ -1,9 +1,9 @@
 <script context="module">
-	export async function load({ page, session }) {
+	export async function load({ url, params, session }) {
 		// check flags for uses cases that require special load state or messaging
-		const loggedInUserResettingPassword = page.query.has('reset');
-		const updatingEmailAddress = page.query.toString().includes('update-email');
-		const emailUpdated = page.query.has('email-updated');
+		const loggedInUserResettingPassword = params['reset'];
+		const updatingEmailAddress = params.toString().includes('update-email');
+		const emailUpdated = params['email-updated'];
 		// TODO: add flag to check for sessions that timed out (JWT cookie expired)
 		// const sessionExpired = false;
 

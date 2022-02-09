@@ -2,7 +2,7 @@ import * as auth from '$lib/apis/auth-api-methods';
 import * as cookie from '$lib/utils/cookies';
 import { serverResponse } from '$lib/utils/helpers';
 
-export async function post(request) {
+export async function post({request}) {
 
   try {
     const { token } = request.body; // #recovery_token value passed to endpoint

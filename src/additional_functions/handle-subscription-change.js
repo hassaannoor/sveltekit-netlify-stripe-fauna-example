@@ -26,7 +26,9 @@ const stripe = require('stripe')(process.env['STRIPE_SECRET_KEY']);
 // Handle-Subscription-Change serverless function
 // -----------------------------------------------------------------------------
 
-exports.handler = async ({ body, headers }, context) => {
+exports.handler = async ({ request, headers }, context) => {
+	console.log(request)
+	let body = await request.json()
   
   try {
     const stripeEvent = await stripe.webhooks.constructEvent(
